@@ -27,6 +27,11 @@ numbers = (1..15).to_a
   cocktail_details = JSON.parse(random_url)
   details = cocktail_details['drinks'][0]
   cocktail = Cocktail.create(name: details['strDrink'])
+
+  image_url = details["strDrinkThumb"]
+  image = URI.open(image_url)
+  cocktail.photo.attach(io: image, filename: "#{cocktail.id}.png", content_type: 'image/png')
+
   numbers.each do |x|
     ingredient = details["strIngredient#{x}"]
     measure = details["strMeasure#{x}"]
